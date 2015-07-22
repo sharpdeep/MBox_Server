@@ -1,0 +1,28 @@
+.navbar-text{
+    font-size: 20px;
+    color:azure;
+}
+.collapse{
+    font-size: 15px;
+    color: azure;
+
+}
+.title{
+    margin-top: 35px;
+    width: 100%;
+    height: inherit;
+}
+.btn{
+    width: 100px;
+}
+.setting-list{
+    padding: 1%;
+}
+.content{
+    padding: 10px;
+    width: 100%;
+    height: 1000px;
+    overflow: visible;
+    border: 0px;
+    
+}

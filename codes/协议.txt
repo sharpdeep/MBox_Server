@@ -1,0 +1,12 @@
+Device-->Server  	[deviceId,command,param1|param2|param3]
+		  			example:
+						[deviceId,post,23|45] once a minute
+						[deviceId,sos,True|False|False]	post when need
+						[deviceId,register,0]	first time
+						[deviceId,conn,0]	make a long connection(recv data from server)
+
+Android-->Server  	[deviceId,sendtodev,command|parmas]
+
+server-->device   	[deviceId,command,param1|param2...]
+
+RESTful API			../userid/deviceid/command/parmas
