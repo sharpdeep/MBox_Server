@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <link rel="stylesheet" media="screen" href="{{static_url("css/bootstrap.min.css")}}">
+		<title>Welcome</title>
+    </head>
+    <body>
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-5"><h3>设备号:{{deviceId}}</h3></div>
+                <div class="col-md-6" id="Ttable" style="height:400px"></div>
+                <div class="col-md-6" id="Htable" style="height:400px"></div>
+                <div class="col-md-4"><span style="font-size:40px;">煤气：<span id="coAlert">安全</span></span></div>
+                <div class="col-md-4"><span style="font-size:40px;">天然气：<span id="chAlert">安全</span></span></div>
+                <div class="col-md-4"><span style="font-size:40px;">防盗：<span id="guardAlert">安全</span></span></div>
+            </div>
+        </div>
+        <!-- ECharts单文件引入 -->
+        <script src="{{static_url("js/echarts.js")}}"></script>
+        <script type="text/javascript" src="{{static_url("js/jquery-2.1.4.min.js")}}"></script>
+        <script type="text/javascript">
+            var int=self.setInterval("clock()",1000);
+            function clock(){
+                $.get("/"+{% raw username%}+"/"+{% raw deviceId%}+"/isalert",function(data){
+                    if(data[0] == '1'){
+                        $("#coAlert").text("警报").css('color','E80A0A');
+                    }else{
+                        $("#coAlert").text("安全").css('color','333333');
+                    }
+                    if(data[1] == '1'){
+                        $("#chAlert").text("警报").css('color','E80A0A');
+                    }else{
+                        $("#chAlert").text("安全");
+                    }
+                    if(data[2] == '1'){
+                        $("#guardAlert").text("警报").css('color','E80A0A');
+                    }else{
+                        $("#guardAlert").text("安全");
+                    }
+                });
+            }
+        </script>
+        <script type="text/javascript">
+            // 路径配置
+            require.config({
+                paths: {
+                    echarts: '{{static_url("js/")}}'
+                }
+            });
+            // 使用
+            require(
+                [
+                    'echarts',
+                    'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+                ],
+                function (ec) {
+                    // 基于准备好的dom，初始化echarts图表
+                    var myTChart = ec.init(document.getElementById('Ttable'));
+                    var myHChart = ec.init(document.getElementById('Htable'));
+                    var optionT = {
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data:['温度']
+                        },
+                        xAxis : [
+                            {
+                                type : 'category',
+                                boundaryGap : false,
+                                data : {% raw [i[0] for i in info] %},
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value',
+                                axisLabel : {
+                                    formatter: '{value} °C'
+                                }
+                            }
+                        ],
+                        series : [
+                            {
+                                name:'温度',
+                                type:'line',
+                                data:{{[i[1] for i in info]}},
+                            }
+                        ]
+                    };
+                    var optionH = {
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data:['湿度']
+                        },
+                        xAxis : [
+                            {
+                                type : 'category',
+                                boundaryGap : false,
+                                data : {% raw [i[0] for i in info]%}
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value',
+                                axisLabel : {
+                                    formatter: '{value} %'
+                                }
+                            }
+                        ],
+                        series : [
+                            {
+                                name:'湿度',
+                                type:'line',
+                                data:{{[i[3] for i in info]}},
+                            }
+                        ]
+                    };
+
+                    // 为echarts对象加载数据
+                    myTChart.setOption(optionT);
+                    myHChart.setOption(optionH)
+                }
+            );
+        </script>
+    </body>
+    
+</html>

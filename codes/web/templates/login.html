@@ -18,27 +18,26 @@
                 margin: 0 auto 20px;
             }
         </style>
-        <script type="text/javascript" src="{{static_url("js/jquery-2.1.4.min.js")}}"></script>
-        <script type="text/javascript" src="{{static_url("js/md5.js")}}"></script>
-        <script type="text/javascript" src="{{static_url("js/login.js")}}"></script>
     </head>
     <body class="bootstrap-admin-without-padding">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <form class="bootstrap-admin-login-form">
+                    <div class="bootstrap-admin-login-form">
                         <h1>Login</h1>
                         <div class="form-group">
-                            <input class="form-control" type="text" id="username" placeholder="UserName">
+                            <input class="form-control" type="text" id="username" placeholder="UserName" required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" type="password" id="password" placeholder="Password">
+                            <input class="form-control" type="password" id="password" placeholder="Password" required>
                         </div>
-                        <button class="btn btn-lg btn-primary" id="submit">Submit</button>
-                    </form>
+                        <button class="btn btn-lg btn-primary" id="login">Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
-
+        <script type="text/javascript" src="{{static_url("js/jquery-2.1.4.min.js")}}"></script>
+        <script type="text/javascript" src="{{static_url("js/md5.js")}}"></script>
+        <script type="text/javascript" src="{{static_url("js/login.js")}}"></script>
     </body>
 </html>

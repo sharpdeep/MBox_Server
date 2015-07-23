@@ -9,8 +9,10 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')  #兼容汉字
 
-from handlers.MainHandler import LoginHandler
+from handlers.MainHandler import LoginHandler,IndexHandler,AlertHandler
 
 url = [
-        (r'/',LoginHandler),
+        (r'/login',LoginHandler),
+        (r'/(\w+)',IndexHandler),
+        (r'/(\w+)/(\w+)/isalert',AlertHandler), # /username/deviceId/isalert
 ]

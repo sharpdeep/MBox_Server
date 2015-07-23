@@ -1,23 +1,31 @@
+function getCookie(name){
+	var x = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+	return x ? x[1]:undefined;
+}
+
 $(document).ready(function(){
-    alert('ok');
-    $("#submit").click(function(){
-        username = $("#username").val();
-        password = $("#password").val();
-        if(username && password){
-            $.ajax({
-                type:"post",
-                url :"/login",
-                data:{"username":username,"password":hex_md5(password)},
-            },
-            function(data){
-                if(data == 'password error'){
-                    alert("密码错误");
-                }
-                if(data == 'not exist'){
-                    alert("用户不存在");
-                }
-            }
-            );
-        }
-    });
+	$("#login").click(function(){
+		var user = $("#username").val();
+		var pwd = $("#password").val();
+        $.ajax({
+			type:"POST",
+			url:"/login",
+			data:{"username":user,"password":hex_md5(pwd)},
+			cache:false,
+			success:function(data){
+				if(data == '00'){
+				    alert("User does't exist");
+				}
+				else if(data == '10'){
+				    alert("password error");
+				}
+				else{
+				    window.location.href='/'+user;
+				}
+			},
+			error:function(){
+				alert("error!");
+			},
+		});
+	});
 });

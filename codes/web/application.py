@@ -13,6 +13,7 @@ settings = dict(
     static_path = os.path.join(os.path.dirname(__file__),'statics'),
     cookie_secret = secretKey,#cookie“加密”
     login_url = '/login',#如果当前用户没登录，会找到该目录
+    debug = True,
     )
 
 application = tornado.web.Application(
