@@ -24,9 +24,9 @@ class LoginHandler(BaseHandler):
                 self.set_current_user(username)
                 self.write('11')
             else:
-                self.write('10')
+                self.write('E01')
         except:
-            self.write('00')
+            self.write('E00')
 
     def set_current_user(self,user):
         if user:
@@ -51,13 +51,15 @@ class IndexHandler(BaseHandler):
             self.render('index.html',info = zip(time_t,temp,time_h,humi),deviceId=dev.deviceId,username=username)
 
 class AlertHandler(BaseHandler):
+    """
+    获取警报api
+    """
     @tornado.web.authenticated
     def get(self, *params, **kwargs):
         if not len(params) == 2:
-            self.write('params error')
+            self.write('E02')
         else:
             username,deviceId = params
-            print username,deviceId
             try:
                 user = User.objects(name=username).get()
                 dev = user.dev
@@ -68,5 +70,42 @@ class AlertHandler(BaseHandler):
                 alert = reduce(lambda x,y:x+y,alert)
                 self.write(alert)
             except:
-                self.write('user not exist')
+                self.write('E00')
 
+class TempHandler(BaseHandler):
+    """
+    获取温度api
+    """
+    @tornado.web.authenticated
+    def get(self, *params, **kwargs):
+        if not len(params) == 2:
+            self.write('E02')
+        else:
+            username,deviceId = params
+            try:
+                user = User.objects(name=username).get()
+                dev = user.dev
+                temp = dev.temperatures
+                temp = dict(zip([time.strftime('%m-%d %H:%M',time.localtime(i.makeTime)) for i in temp],[i.temperature for i in temp]))
+                self.write(temp)
+            except Exception,e:
+                self.write('E00')
+
+class HumiHandler(BaseHandler):
+    """
+    获取湿度api
+    """
+    @tornado.web.authenticated
+    def get(self, *params, **kwargs):
+        if not len(params) == 2:
+            self.write('E02')
+        else:
+            username,deviceId = params
+            try:
+                user = User.objects(name=username).get()
+                dev = user.dev
+                humi = dev.humiditys
+                humi = dict(zip([time.strftime('%m-%d %H:%M',time.localtime(i.makeTime)) for i in humi],[i.humidity for i in humi]))
+                self.write(humi)
+            except Exception,e:
+                self.write('E00')

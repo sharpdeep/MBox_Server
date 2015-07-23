@@ -13,10 +13,10 @@ $(document).ready(function(){
 			data:{"username":user,"password":hex_md5(pwd)},
 			cache:false,
 			success:function(data){
-				if(data == '00'){
+				if(data == 'E00'){
 				    alert("User does't exist");
 				}
-				else if(data == '10'){
+				else if(data == 'E01'){
 				    alert("password error");
 				}
 				else{

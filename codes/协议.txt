@@ -9,4 +9,16 @@ Android-->Server  	[deviceId,sendtodev,command|parmas]
 
 server-->device   	[deviceId,command,param1|param2...]
 
-RESTful API			../userid/deviceid/command/parmas
+RESTful API			../username/deviceid/command/(parmas)
+					example:
+						../admin/12345/isalert
+						../admin/12345/temp?year=xxxx&month=xx&day=xx&hour=xx&minute=xx
+						../admin/12345/temp
+						../admin/12345/humi?year=xxxx&month=xx&day=xx&hour=xx&minute=xx
+						../admin/12345/humi
+
+error:
+
+E00:user not exist;
+E01:password error;
+E02:parmas error;

@@ -21,7 +21,10 @@
         <script src="{{static_url("js/echarts.js")}}"></script>
         <script type="text/javascript" src="{{static_url("js/jquery-2.1.4.min.js")}}"></script>
         <script type="text/javascript">
-            var int=self.setInterval("clock()",1000);
+            $(document).ready(function(){
+                clock();
+                var int=self.setInterval("clock()",5000);
+            });
             function clock(){
                 $.get("/"+{% raw username%}+"/"+{% raw deviceId%}+"/isalert",function(data){
                     if(data[0] == '1'){
@@ -127,5 +130,5 @@
             );
         </script>
     </body>
-    
+
 </html>
