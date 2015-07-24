@@ -9,6 +9,7 @@
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div class="container">
             <div class="row">
+                <div class="col-md-12"><h4>欢迎登录：{{eval(username)}}</h4></div>
                 <div class="col-md-12 col-md-offset-5"><h3>设备号:{{deviceId}}</h3></div>
                 <div class="col-md-6" id="Ttable" style="height:400px"></div>
                 <div class="col-md-6" id="Htable" style="height:400px"></div>
@@ -35,12 +36,12 @@
                     if(data[1] == '1'){
                         $("#chAlert").text("警报").css('color','E80A0A');
                     }else{
-                        $("#chAlert").text("安全");
+                        $("#chAlert").text("安全").css('color','333333');
                     }
                     if(data[2] == '1'){
                         $("#guardAlert").text("警报").css('color','E80A0A');
                     }else{
-                        $("#guardAlert").text("安全");
+                        $("#guardAlert").text("安全").css('color','333333');
                     }
                 });
             }
@@ -130,5 +131,4 @@
             );
         </script>
     </body>
-
 </html>

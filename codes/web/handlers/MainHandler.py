@@ -44,10 +44,10 @@ class IndexHandler(BaseHandler):
             self.render('index.html',info = 'not_admin')
         else:
             dev = user.dev
-            time_t  = [time.strftime('%H:%M',time.localtime(i.makeTime)) for i in dev.temperatures]
-            temp    = [i.temperature for i in dev.temperatures]
-            time_h  = [time.strftime('%H:%M',time.localtime(i.makeTime)) for i in dev.humiditys]
-            humi    = [i.humidity for i in dev.humiditys]
+            time_t  = [time.strftime('%H:%M',time.localtime(i.makeTime)) for i in dev.temperatures[-(setting.web['last']):]]
+            temp    = [i.temperature for i in dev.temperatures[-(setting.web['last']):]]
+            time_h  = [time.strftime('%H:%M',time.localtime(i.makeTime)) for i in dev.humiditys[-(setting.web['last']):]]
+            humi    = [i.humidity for i in dev.humiditys[-(setting.web['last']):]]
             self.render('index.html',info = zip(time_t,temp,time_h,humi),deviceId=dev.deviceId,username=username)
 
 class AlertHandler(BaseHandler):
@@ -86,7 +86,8 @@ class TempHandler(BaseHandler):
                 user = User.objects(name=username).get()
                 dev = user.dev
                 temp = dev.temperatures
-                temp = dict(zip([time.strftime('%m-%d %H:%M',time.localtime(i.makeTime)) for i in temp],[i.temperature for i in temp]))
+                g = lambda x,y:x*100+y
+                temp = dict(zip([reduce(g,time.localtime(i.makeTime)[-8:-4]) for i in temp[-(setting.web['last']):]],[i.temperature for i in temp[-(setting.web['last']):]]))
                 self.write(temp)
             except Exception,e:
                 self.write('E00')
@@ -105,7 +106,9 @@ class HumiHandler(BaseHandler):
                 user = User.objects(name=username).get()
                 dev = user.dev
                 humi = dev.humiditys
-                humi = dict(zip([time.strftime('%m-%d %H:%M',time.localtime(i.makeTime)) for i in humi],[i.humidity for i in humi]))
+                g = lambda x,y:x*100+y
+                humi = dict(zip([reduce(g,time.localtime(i.makeTime)[-8:-4]) for i in humi[-(setting.web['last']):]],[i.humidity for i in humi[-(setting.web['last']):]]))
+                print humi
                 self.write(humi)
             except Exception,e:
                 self.write('E00')

@@ -22,3 +22,4 @@ error:
 E00:user not exist;
 E01:password error;
 E02:parmas error;
+E03:User exist
