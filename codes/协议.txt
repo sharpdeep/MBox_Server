@@ -1,4 +1,4 @@
-Device-->Server  	[deviceId,command,param1|param2|param3]
+﻿Device-->Server  	[deviceId,command,param1|param2|param3]
 		  			example:
 						[deviceId,post,23|45] once a minute
 						[deviceId,sos,True|False|False]	post when need
